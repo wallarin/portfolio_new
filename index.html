@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jae Min's Portfolio</title>
+    <link rel="shortcut icon" href="static/favicon.ico" />
+    <link rel="stylesheet" href="css/main.css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- 로딩 -->
+    <div id="loading">
+        <div class="spinner"></div>
+    </div>
+
+    <div class="container">
+        <!-- 메인 첫 페이지 Section -->
+        <section class="section-1">
+            <div class="section-1-container">
+                <!-- 왼쪽 사이드바 -->
+                <div class="sidebar">
+                    <ul>
+                        <li>
+                            <a href="https://github.com/wallarin?tab=repositories" target="_blank" class="tooltip">
+                                <span class="gray-333">GitHub</span>
+                                <span class="material-icons gray-666">open_in_new</span>
+                                <span class="tooltip-text">깃허브 바로가기</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.naver.com" target="_blank" class="tooltip">
+                                <span class="gray-333">React Todo Toy Project</span>
+                                <span class="material-icons gray-666">open_in_new</span>
+                                <span class="tooltip-text">ToDo List 바로가기</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.google.com/" target="_blank" class="tooltip">
+                                <span class="gray-333">Google</span>
+                                <span class="material-icons gray-666">open_in_new</span>
+                                <span class="tooltip-text">구글 바로가기</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="contact-info">
+                        <p>경력: <span class="gray-333 font-weight-600">(주)웨어비즈 - 1년
+                                6개월<br /><span class="company-period">(2022.12 ~ 2024.06)</span></span></p>
+                        <p>나이: <span class="gray-333 font-weight-600">30세 (만 29세)</span></p>
+                        <p>이메일: <span id="email" class="gray-333 font-weight-600">bjaemin67@google.com</span></p>
+                        <p id="copy-notification" style="display:none; color:green;">이메일이 복사되었습니다!</p>
+                        <p>전화번호: <span class="gray-333 font-weight-600">010-7436-3900</span></p>
+                        <p>최종 수정일: <span class="gray-333 font-weight-600">2024-10-16</span></p>
+                    </div>
+                </div>
+
+                <!-- 첫 번째 Section Contents -->
+                <div class="main-div-content">
+                    <div class="main-content">
+                        <h1>실력을 발전시킬 기회를 환영하며, 끊임없이 도전하는</h1>
+                        <h1>개발자 <span class="my_name">백재민</span> 입니다.</h1>
+                        <p>프론트엔드, 백엔드를 구분하지 않고 다양한 경험을 하기 위해 노력하고 있습니다.</p>
+                        <p>Linux 환경도 친숙해지기 위해 자기개발중에 있습니다.</p>
+                        <p>도전을 멈추면 성장도 멈춘다는 것을 알기에 다양한 시도를 하고 있습니다.</p>
+                    </div>
+
+                    <!-- 아래로 내리라는 움직이는 아이콘 -->
+                    <div class="scroll-down">
+                        <span class="material-icons">arrow_downward</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2 -->
+        <section class="section-2">
+            <div style="font-size: 1.2rem; padding: 30px 70px;">
+                <h1>Experience Skills</h1>
+                <h3>FrontEnd</h3>
+                <ul style="padding-left: 40px;">
+                    <li>
+                        <img src="static/stack/html5.svg" style="width: 32px; height: 32px;" alt="">
+                        HTML - 기본적인 HTML 마크업 태그를 활용하여 코드를 작성할 수 있는 기술을 보유하고 있습니다.</li>
+                    <li>
+                        <img src="static/stack/css3.svg" style="width: 32px; height: 32px;" alt="">
+                        CSS - 기본적인 HTML 마크업 태그를 활용하여 코드를 작성할 수 있는 기술을 보유하고 있습니다.</li>
+                    <li>
+                        <img src="static/stack/plus.svg" style="width: 32px; height: 32px;" alt="">
+                        CSS FrameWork
+                        <ul style="padding-left: 40px;">
+                            <li>
+                                <img src="static/stack/bootstrap.svg" style="width: 32px; height: 32px;" alt="">
+                                BootStrap</li>
+                            <li>
+                                <img src="static/stack/tailwindcss.svg" style="width: 32px; height: 32px;" alt="">
+                                Tailwind CSS</li>
+                            <li>
+                                <img src="static/stack/sass.svg" style="width: 32px; height: 32px;" alt="">
+                                Sass/SCSS</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <img src="static/stack/javascript.svg" style="width: 32px; height: 32px;" alt="">
+                        JavaScript - 기본적인 HTML 마크업 태그를 활용하여 코드를 작성할 수 있는 기술을 보유하고 있습니다.</li>
+                    <li>
+                        <img src="static/stack/plus.svg" style="width: 32px; height: 32px;" alt="">
+                        JavaScript FrameWork
+                        <ul style="padding-left: 40px;">
+                            <li>
+                                <img src="static/stack/react.svg" style="width: 32px; height: 32px;" alt="">
+                                React - 기본적인 HTML 마크업 태그를 활용하여 코드를 작성할 수 있는 기술을 보유하고 있습니다.
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <img src="static/stack/plus.svg" style="width: 32px; height: 32px;" alt="">
+                        JavaScript Library
+                        <ul style="padding-left: 40px;">
+                            <li>
+                                <img src="static/stack/jquery.svg" style="width: 32px; height: 32px;" alt="">
+                                jQuery - 기본적인 HTML 마크업 태그를 활용하여 코드를 작성할 수 있는 기술을 보유하고 있습니다.
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                
+                <div class="scroll-down">
+                    <span class="material-icons">arrow_downward</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3 -->
+        <section class="section-3">
+            <div style="font-size: 1.2rem; padding: 30px 70px;">
+                <h1>Experience Skills</h1>
+                <h3>BackEnd</h3>
+                <ul style="padding-left: 40px;">
+                    <li>
+                        <img src="static/stack/java.svg" style="width: 32px; height: 32px;" alt="">
+                        JAVA - 기본적인 HTML 마크업 태그를 활용하여 코드를 작성할 수 있는 기술을 보유하고 있습니다.
+                    </li>
+                    <li>
+                        <img src="static/stack/spring.svg" style="width: 32px; height: 32px;" alt="">
+                        Spring Boot FrameWork - 기본적인 HTML 마크업 태그를 활용하여 코드를 작성할 수 있는 기술을 보유하고 있습니다.
+                    </li>
+                    <li>
+                        <img src="static/stack/python.svg" style="width: 32px; height: 32px;" alt="">
+                        Python - 기본적인 HTML 마크업 태그를 활용하여 코드를 작성할 수 있는 기술을 보유하고 있습니다.
+                    </li>
+                    <li>
+                        <img src="static/stack/php.svg" style="width: 32px; height: 32px;" alt="">
+                        PHP - 기본적인 HTML 마크업 태그를 활용하여 코드를 작성할 수 있는 기술을 보유하고 있습니다.
+                    </li>
+                </ul>
+                <h3>DataBase</h3>
+                <ul style="padding-left: 40px;">
+                    <li>
+                        <img src="static/stack/mysql.svg" style="width: 32px; height: 32px;" alt="">
+                        MySQL - 기본적인 HTML 마크업 태그를 활용하여 코드를 작성할 수 있는 기술을 보유하고 있습니다.</li>
+                    <li>
+                        <img src="static/stack/postgresql.svg" style="width: 32px; height: 32px;" alt="">
+                        PostgreSQL - 기본적인 HTML 마크업 태그를 활용하여 코드를 작성할 수 있는 기술을 보유하고 있습니다.</li>
+                    <li>
+                        
+                        <img src="static/stack/oracle.svg" style="width: 32px; height: 32px;" alt="">
+                        Oracle - 기본적인 HTML 마크업 태그를 활용하여 코드를 작성할 수 있는 기술을 보유하고 있습니다.</li>
+                </ul>
+                <h3>
+                    <img src="static/stack/linux.svg" style="width: 32px; height: 32px;" alt="">
+                    Linux</h3>
+                <ul style="padding-left: 40px;">
+                    <li>
+                        <img src="static/stack/ubuntu.svg" style="width: 32px; height: 32px;" alt="">
+                        Ubuntu / 
+                        <img src="static/stack/centos.svg" style="width: 32px; height: 32px;" alt="">
+                        CentOS - 기본적인 HTML 마크업 태그를 활용하여 코드를 작성할 수 있는 기술을 보유하고 있습니다.</li>
+                </ul>
+                <h3>Deploy</h3>
+                <ul style="padding-left: 40px;">
+                    <li>
+                        <img src="static/stack/docker.svg" style="width: 32px; height: 32px;" alt="">
+                        Docker - 기본적인 HTML 마크업 태그를 활용하여 코드를 작성할 수 있는 기술을 보유하고 있습니다.</li>
+                    <li>
+                        <img src="static/stack/oracle.svg" alt="" style="width: 32px; height: 32px;"/>
+                        Oracle Cloud - 기본적인 HTML 마크업 태그를 활용하여 코드를 작성할 수 있는 기술을 보유하고 있습니다.</li>
+                    <li>
+                        <img src="static/stack/nginx.svg" style="width: 32px; height: 32px;" alt="">
+                        Nginx - 기본적인 HTML 마크업 태그를 활용하여 코드를 작성할 수 있는 기술을 보유하고 있습니다.</li>
+                    <li>
+                        <img src="static/stack/tomcat.svg" style="width: 32px; height: 32px;" alt="">
+                        Apache Tomcat - 기본적인 HTML 마크업 태그를 활용하여 코드를 작성할 수 있는 기술을 보유하고 있습니다.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Section 4 -->
+        <section class="section-4">
+            <div>
+                <h2>Contact Me</h2>
+                <p>Feel free to reach out for collaboration or questions.</p>
+                <a href="#">Get in Touch</a>
+            </div>
+        </section>
+    </div>
+    <!-- TOP으로 올리기 버튼 -->
+    <div id="scrollToTop" class="scroll-to-top">
+        <span class="material-icons">keyboard_arrow_up</span>
+    </div>
+
+    <script src="javascript/main.js"></script>
+</body>
+
+</html>

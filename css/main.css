@@ -1,0 +1,419 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    font-family: "Noto Sans KR", Arial, sans-serif;
+    font-weight: 400;
+}
+
+body { overflow: hidden; }
+
+h1 {
+    font-size: 2rem;
+    color: #444;
+}
+
+
+
+/* -------------------------------------------------------- */
+
+/* 글자 색상 미리 지정해놓기 */
+
+.gray-333 { color: #333; }
+
+.gray-444 { color: #444; }
+
+.gray-555 { color: #555; }
+
+.gray-666 { color: #666; }
+
+.font-weight-600 { font-weight: 600; }
+
+/* -------------------------------------------------------- */
+
+/* 로딩 화면 스타일 */
+#loading {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.spinner {
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #3498db;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* TOP으로 올리기 버튼 기본 스타일 */
+.scroll-to-top {
+    position: fixed;
+    bottom: 40px;
+    right: 60px;
+    background-color: #333;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    display: block;
+    transition: opacity 0.3s ease;
+}
+
+.scroll-to-top:hover {
+    background-color: #555;
+}
+
+/* -------------------------------------------------------- */
+
+/* 컨테이너 설정 */
+.container {
+    height: 100vh;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory; /* 세로 스크롤 스냅 설정 */
+}
+
+/* 섹션 설정 */
+section {
+    scroll-snap-align: start; /* 섹션이 시작할 때 스냅 */
+    justify-content: center;
+    align-items: center;
+}
+
+/* -------------------------------------------------------- */
+
+/* 사이드바 설정 */
+.sidebar {
+    width: 395px;
+    background-color: #f4f4f4;
+    padding: 20px;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-right: 2px solid #ddd;
+}
+
+/* ------------- */
+
+/* 사이드바 바로가기 주소 */
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px 25px 0 15px;
+}
+
+.sidebar ul li {
+    margin-bottom: 20px;
+    border-bottom: 3px solid #111;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar ul li a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    text-decoration: none;
+    color: black;
+
+}
+
+/* 링크 기본 스타일 */
+.tooltip {
+    position: relative; /* 툴팁 위치 설정을 위해 relative로 설정 */
+    display: inline-block;
+    text-decoration: none;
+    color: inherit;
+}
+
+/* 툴팁 텍스트 스타일 */
+.sidebar ul li a .tooltip-text {
+    visibility: hidden; /* 기본적으로 숨김 */
+    background-color: #ccc;
+    width: 120px;
+    color: #fff;
+    text-align: center;
+    padding: 5px;
+    border-radius: 5px;
+
+    font-size: 0.8rem;
+    /* 툴팁의 위치 */
+    position: absolute;
+    top: 5%; /* 링크 상단에 툴팁 표시 */
+    left: 130%;
+    transform: translateX(-50%);
+    z-index: 1;
+    
+    opacity: 0;
+    transition: opacity 0.3s;
+    
+    /* 화살표 추가 */
+    pointer-events: none; /* 툴팁에 마우스가 반응하지 않게 */
+}
+
+.tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 50%; /* 툴팁의 하단에 화살표 표시 */
+    right: 102%;
+    transform: translateY(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent #333  transparent transparent;
+}
+
+/* 마우스를 올렸을 때 툴팁 표시 */
+.tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1; /* 툴팁이 나타남 */
+}
+
+.sidebar ul li:hover { background-color: #eee; }
+
+.sidebar ul li a span { font-size: 1rem; }
+
+.sidebar ul li a .icon {
+    width: 20px;
+    height: 20px;
+}
+
+/* ------------- */
+
+/* 사이드바 자기소개란 */
+.contact-info {
+    font-size: 0.9rem;
+    margin-top: auto;
+    color: #666;
+    margin-left: 10px;
+    position: relative;
+
+    padding: 15px;
+    border-radius: 10px;
+    z-index: 1;
+}
+
+.company-period { margin-left: 38px; }
+
+/* 이메일 클릭 시 클립보드 복사안내 문구 디자인 */
+#copy-notification {
+    display: none;
+    font-size: 0.9rem;
+    color: green;
+    margin-top: 10px;
+}
+
+.contact-info::before {
+    content: "";
+    position: absolute;
+    top: -110px;
+    left: 20px;
+    width: 100%;
+    height: 100%;
+    background-image: url('../static/my_picture.jpg');
+    background-position: left top;
+    background-size: 100px;
+    background-repeat: no-repeat;
+    opacity: 1;
+    z-index: -1;
+}
+
+.contact-info p {
+    margin-top: 13px;
+    margin-bottom: 10px;
+    font-size: 1rem;
+}
+
+/* -------------------------------------------------------- */
+
+/* 메인 콘텐츠 설정 */
+
+/* --------------------------- */
+
+.section-1 {
+    display: block;
+    background-image: url('../static/background-img.webp');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 75% 90%;
+
+    /* 배경이미지에 투명도를 위해서 추가 */
+    position: relative;
+    isolation: isolate;
+}
+
+/* 배경이미지에 투명도를 위한 설정 추가 */
+.section-1::after {
+    content: '';
+    position: absolute;
+    background: white;
+    z-index: -1;
+    inset: 0;
+    opacity: 0.5;
+  }
+
+/* 첫 메인 스타일*/
+.section-1-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.main-div-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+}
+
+.main-content {
+    margin-top: 350px;
+    margin-left: 240px;
+    padding: 20px;
+    text-align: center;
+    width: 75%;
+}
+
+/* 기본 애니메이션 설정 */
+@keyframes slideUp {
+    0% {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* 스크롤 시 위로 사라지는 애니메이션 */
+@keyframes slideUpOut {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+}
+
+.main-content p {
+    font-size: 1.2rem;
+    color: #666;
+    margin-top: 20px;
+}
+
+/* 애니메이션 적용할 모든 요소에 공통적으로 적용 */
+.main-content h1,
+.main-content p {
+    opacity: 0;
+    animation: slideUp 1s ease forwards;
+}
+
+/* 순차적인 애니메이션을 위한 지연 설정 */
+.main-content h1:nth-child(1) { animation-delay: 0.3s; }
+
+.main-content h1:nth-child(2) { animation-delay: 0.6s; }
+
+.main-content p:nth-child(3) { animation-delay: 0.9s; }
+
+.main-content p:nth-child(4) { animation-delay: 1.2s; }
+
+.main-content p:nth-child(5) { animation-delay: 1.5s; }
+
+/* 스크롤 이벤트에 따라 위로 사라지는 클래스 추가 */
+.scroll-up { animation: slideUpOut 1s ease forwards; }
+
+/* 아래로 내리라는 아이콘을 하단 중앙에 위치 */
+.scroll-down {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    color: #333;
+    cursor: default;
+    margin-bottom: 100px;
+}
+
+/* 아이콘에 위 아래로 움직이는 애니메이션 효과 추가 */
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(10px); }
+}
+
+.scroll-down .material-icons {
+    animation: bounce 1.5s infinite;
+}
+
+/* 이름 밑줄 선 스타일 추가 */
+.my_name {
+    position: relative;
+    display: inline-block;
+}
+
+.my_name::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 88px;
+    height: 0.3em;
+    background-color: #a071ec;
+    z-index: -1;
+}
+
+/* --------------------------- */
+
+/* Section 2 ~ 4 공통 스타일 */
+
+.section-2, .section-3, .section-4 {
+    height: 100%;
+    background-color: #f0f0f0;
+}
+
+/* ----------------------------------------------------------------- */
+
+/* 섹션 2 스타일 */
+.section-2 {
+    
+}
+
+/* ----------------------------------------------------------------- */
+
+/* 섹션 3 스타일 */
+.section-3 {
+
+}
+
+/* ----------------------------------------------------------------- */
+
+/* 섹션 4 스타일 */
+.section-4 {
+
+}
+
+/* ----------------------------------------------------------------- */
