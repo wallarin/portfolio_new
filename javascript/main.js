@@ -55,6 +55,7 @@ document.getElementById('scrollToTop').addEventListener('click', function() {
 
 var swiper = new Swiper('.swiper-container', {
     loop: true, // 무한 루프
+    allowTouchMove: false,
     autoplay: {
         delay: 5000, // 5초마다 자동으로 배경 전환
     },

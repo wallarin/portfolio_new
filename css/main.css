@@ -464,9 +464,10 @@ section {
 /* ----------------------------------------------------------------- */
 
 /* 섹션 2 스타일 */
-.section-2 .main-contents, .section-3 .main-contents {
+.section-2 .main-contents, .section-3 .main-contents, .section-4 .main-contents {
     font-size: 1.2rem;
     padding: 30px 70px;
+    height: 100%;
 }
 
 .section-2 .main-contents h3, .section-3 .main-contents h3 {
@@ -478,7 +479,7 @@ section {
 }
 
 .section-2 .main-contents ul li {
-    margin: 20px 0;
+    margin: 10px 0;
 }
 
 .section-2 .main-contents ul li ul, .section-3 .main-contents ul li ul {
@@ -486,8 +487,8 @@ section {
 }
 
 .skils-icons {
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
 }
 
 /* ----------------------------------------------------------------- */
@@ -502,6 +503,25 @@ section {
 /* 섹션 4 스타일 */
 .section-4 {
 
+}
+
+.section-4 .contents-4 {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 100%;
+    padding: 0 80px;
+}
+
+.project-div {
+    display: flex; flex-direction: column;text-align: center;
+}
+
+.project-div img {
+    width: 512px;
+    height: 512px;
+    background-size: cover;
+    margin-bottom: 15px;
 }
 
 /* ----------------------------------------------------------------- */
