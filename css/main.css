@@ -367,10 +367,25 @@ section {
     }
 }
 
-.main-content p {
+.main-content h1 {
+    font-size: 3rem;
+    color: #DDD;
+}
+
+.main-content p:nth-child(3) {
     font-size: 1.2rem;
-    color: #666;
+    color: #DDD;
     margin-top: 20px;
+}
+
+.main-content p:nth-child(4) {
+    font-size: 1.2rem;
+    color: #DDD;
+}
+
+.main-content p:nth-child(5) {
+    font-size: 1.2rem;
+    color: #DDD;
 }
 
 /* 애니메이션 적용할 모든 요소에 공통적으로 적용 */
@@ -445,7 +460,7 @@ section {
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 88px;
+    width: 130px;
     height: 0.3em;
     background-color: #a071ec;
     z-index: -1;
