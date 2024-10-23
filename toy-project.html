@@ -25,7 +25,6 @@
         }
 
         .contents {
-            border: 1px solid black;
             background-color: #1e1e1e;
             padding: 30px 20px;
         }
@@ -83,8 +82,13 @@
 
         pre {
             flex: 1;
-            max-height: 900px;
+            max-height: 645px;
             margin-left: 20px;
+            overflow-y: auto;
+        }
+
+        code {
+            white-space: break-spaces;
         }
 
         .swiper-slide {
@@ -263,9 +267,12 @@ if(!$get_data) {
                     </div>
                     <div class="swiper-slide">Slide 3</div>
                 </div>
-                <div class="swiper-button-prev"></div>
-                <div class="swiper-button-next"></div>
-                <div class="swiper-pagination"></div>
+                <div style="display: flex; position:relative; height: 100px; width: 20%; margin: 0 auto;">
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-pagination"></div>
+                    <button id="nextTabButton" style="display: none;">Next<br />Tab</button>
+                </div>
             </div>
         </div>
         <div id="tab2" class="tab-content">
@@ -294,7 +301,7 @@ if(!$get_data) {
         </div>
 
         <!-- 다음 탭으로 이동 버튼 -->
-        <button id="nextTabButton" style="display: none;">Next<br />Tab</button>
+        
     </div>
 
 
