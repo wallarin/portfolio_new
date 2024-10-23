@@ -1,0 +1,205 @@
+* {
+    font-family: "Noto Sans KR", Arial, sans-serif;
+    font-size: 14px;
+}
+
+body,
+html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: #1e1e1e;
+}
+
+.contents {
+    background-color: #1e1e1e;
+    padding: 30px 20px;
+}
+
+.tabs {
+    display: flex;
+    overflow-x: auto; /* X축 스크롤 허용 */
+    white-space: nowrap;
+    margin-bottom: 30px;
+    background-color: #1e1e1e;
+    border-bottom: 2px solid #333; /* 탭 아래쪽 경계 */
+    padding: 10px 0; /* 상하 여백 */
+
+}
+
+/* Firefox 전용 CSS */
+@-moz-document url-prefix() {
+    /* 여기에 Firefox 전용 CSS를 작성하세요 */
+    .tabs {
+        scrollbar-width: thin; /* Firefox에서 얇은 스크롤바 */
+        scrollbar-color: #0D6EFD #1a1a1a; /* 스크롤바 색상 (파란색 강조) */
+    }
+}
+
+/* 스크롤바의 전체 영역 */
+.tabs::-webkit-scrollbar {
+    height: 8px; /* X축 스크롤바 높이 */
+}
+
+/* 스크롤바의 트랙 (배경) */
+.tabs::-webkit-scrollbar-track {
+    background: #1a1a1a; /* 트랙 배경색 */
+    border-radius: 5px;
+}
+
+/* 스크롤바의 핸들 (스크롤바 자체) */
+.tabs::-webkit-scrollbar-thumb {
+    background-color: #0D6EFD; /* 파란색 강조 */
+    border-radius: 5px; /* 둥근 모서리 */
+    border: 2px solid #1a1a1a; /* 핸들 외곽선 */
+}
+
+/* 스크롤바를 잡을 때의 색상 */
+.tabs::-webkit-scrollbar-thumb:hover {
+    background-color: #005bb5; /* 마우스를 올렸을 때 더 진한 파란색 */
+}
+
+.tab {
+    border: 1.5px solid white;
+    background-color: #1e1e1e;
+    color: #eee;
+    padding: 10px 15px;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.tab:hover {
+    background-color: #343A40;
+}
+
+.tab.active {
+    background-color: #3e3e3e;
+    border-bottom: 3px solid #0D6EFD;
+}
+
+.tab-content {
+    display: none;
+    border: 1px solid #eee;
+    color: #F8F9FA;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+h2,
+h3 {
+    color: #0D6EFD;
+}
+
+strong {
+    color: #eee;
+    font-weight: bold;
+}
+
+.project-explanation {
+    flex: 1;
+    padding: 20px;
+    margin: 0 20px;
+    align-content: center;
+}
+
+li::marker {
+    color: #0DCAF0;
+}
+
+.evidence {
+    flex: 1;
+    max-height: 645px;
+    margin-left: 20px;
+    overflow-y: auto;
+    align-content: center;
+}
+
+/* 스크롤바의 전체 영역 */
+.evidence::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* 스크롤바의 트랙 (배경) */
+.evidence::-webkit-scrollbar-track {
+    background: #1a1a1a; /* 트랙 배경을 어둡게 설정 */
+    border-radius: 5px;
+}
+
+/* 스크롤바의 핸들 (스크롤바 자체) */
+.evidence::-webkit-scrollbar-thumb {
+    background-color: #555; /* 핸들 색상을 중간 톤 회색으로 설정 */
+    border-radius: 5px;
+    border: 2px solid #1a1a1a; /* 핸들 외곽선 추가 */
+}
+
+/* 스크롤바를 잡을 때의 색상 */
+.evidence::-webkit-scrollbar-thumb:hover {
+    background-color: #888; /* 마우스를 올렸을 때 조금 더 밝게 설정 */
+}
+
+code {
+    white-space: break-spaces;
+}
+
+.swiper-wrapper .swiper-slide {
+    display: flex;
+    background-color: #333;
+}
+
+.swiper-slide {
+    min-height: 680px;
+}
+
+.nextTabButton {
+    display: none;
+    position: absolute;
+    z-index: 30;
+    background: linear-gradient(135deg, #007aff, #00bfff);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    padding: 10px 30px;
+    font-size: 14px;
+    color: white;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+
+    right: var(--swiper-navigation-sides-offset, 0px);
+    top: 15px;
+}
+
+.prevTabButton {
+    position: absolute;
+    z-index: 30;
+    background: linear-gradient(135deg, #007aff, #00bfff);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    padding: 10px 30px;
+    font-size: 14px;
+    color: white;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+
+    top: 15px;
+
+}
+
+.nextTabButton:hover, .prevTabButton:hover {
+    background: linear-gradient(135deg, #005bb5, #0099ff);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.controll-box {
+    display: flex;
+    position:relative;
+    height: 100px;
+    width: 20%;
+    margin: 0 auto;
+}

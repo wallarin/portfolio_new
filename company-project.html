@@ -1,11 +1,747 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Company-Project</title>
+    <link rel="shortcut icon" href="static/favicon.ico" />
+    <link rel="stylesheet" href="css/project.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
 </head>
+
 <body>
+    <div class="contents">
+        <!-- 탭 영역 -->
+        <header class="tabs">
+            <div class="tab active" data-tab="tab1">내부 개발 - Python</div>
+            <div class="tab" data-tab="tab2">OCR 업무</div>
+            <div class="tab" data-tab="tab3">Adiga 대학입시 포털사이트 - Java&JavaScript</div>
+            <div class="tab" data-tab="tab4">KB금융지주 문서 내용 검색 - Java&JavaScript</div>
+            <div class="tab" data-tab="tab10">Awesomepia 관리자 페이지 - PHP</div>
+            <div class="tab" data-tab="tab11">Nice 관리자 페이지 - PHP</div>
+        </header>
+
+        <div id="tab1" class="tab-content active">
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+
+                        <pre class="evidence">
+                            <code class="language-python">
+from apscheduler.schedulers.blocking import BlockingScheduler
+from configparser import ConfigParser
+import subprocess
+import threading
+import datetime
+import time
+from watchdog.observers import Observer
+from watchdog.events import FileSystemEventHandler
+
+#config파일 경로
+config_path = '/app/config/'
+config_name = 'config.ini'
+
+# 글로벌 락 초기화
+lock = threading.Lock()
+
+
+def execute_command(command):
+    with lock:  # 락을 사용하여 순차 실행을 보장
+        print(f"Executing {command} at {datetime.datetime.now()}")
+        subprocess.run(command, shell=True)
+        print(f"Finished {command} at {datetime.datetime.now()}")
+
+
+def load_config_and_schedule(scheduler):
+    config = ConfigParser()
+    with open(config_path + config_name, encoding='utf-8') as f:
+        config.read_file(f)
+
+    scheduler.remove_all_jobs()  # 기존에 스케쥴된 모든 작업을 제거
+
+    # 모든 설정된 스케줄 읽기
+    for section in config.sections():
+        command = config.get(section, 'command')
+        start_time = config.get(section, 'start_time', fallback=None)
+        if start_time:
+            start_time = datetime.datetime.strptime(start_time, '%Y-%m-%d %H:%M:%S')
+
+        # interval 스케줄 처리
+        if config.has_option(section, 'interval_type'):
+            interval_types = config.get(section, 'interval_type').split(',')
+            intervals = config.get(section, 'interval').split(',')
+            interval_dict = {
+                interval_type: int(interval)
+                for interval_type, interval in zip(interval_types, intervals)
+            }
+            scheduler.add_job(execute_command, 'interval', [command], start_date=start_time, **interval_dict)
+
+        # cron 스케줄 처리
+        elif config.has_option(section, 'cron_type'):
+            cron_type = config.get(section, 'cron_type', fallback='daily')
+            day = config.get(section, 'day', fallback=None)
+            hour = config.getint(section, 'hour', fallback=0)
+            minute = config.getint(section, 'minute', fallback=0)
+            cron_dict = {
+                'hour': hour,
+                'minute': minute
+            }
+            if day:
+                cron_dict['day'] = day
+            scheduler.add_job(execute_command, 'cron', [command], start_date=start_time, **cron_dict)
+
+
+class ChangeHandler(FileSystemEventHandler):
+    def on_modified(self, event):
+        if config_path + config_name in event.src_path:
+            print(f"{event.src_path} has been modified. Reloading the configuration...")
+            load_config_and_schedule(scheduler)
+
+
+def start_monitoring():
+    observer = Observer()
+    event_handler = ChangeHandler()
+    observer.schedule(event_handler, config_path, recursive=False)
+    observer.start()
+    try:
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        observer.stop()
+    observer.join()
+
+
+def main():
+    global scheduler
+    scheduler = BlockingScheduler()
+    load_config_and_schedule(scheduler)  # 초기 스케줄 설정
+    thread = threading.Thread(target=start_monitoring)
+    thread.start()  # 설정 파일 감시 시작
+    scheduler.start()  # 스케줄러 시작
+
+
+if __name__ == '__main__':
+    main()
+                            </code>
+                        </pre>
+                        <div class="project-explanation">
+                            <h2>프로젝트명: <strong>회사 내부 엔진 기능 고도화</strong></h2>
+                            <ul>
+                                <li><strong>소속회사:</strong> (주) 웨어비즈</li>
+                                <li><strong>주요 업무:</strong> PL</li>
+                                <li><strong>담당 역할:</strong> PL 및 Developer</li>
+                                <li><strong>기술 스택:</strong> Python, Linux</li>
+                                <li><strong>업무 기간:</strong> 2024년 1월 ~ 2024년 6월</li>
+                                <li><strong>개발 인원:</strong> 2명</li>
+                            </ul>
+                            <h3>프로젝트 개요:</h3>
+                            <p>검색엔진 내에 전체 및 부분 색인 등을 위하여 구현해 놓았던 스케줄링 기능이 가동 시간이 길어질수록 정지되는 현상이 발생하여, Java로 동작중이던 해당 기능을
+                                Python으로 변경 후 엔진 내부에 이식하여 반영 처리를 하였습니다.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="controll-box">
+                    <button class="prevTabButton">Prev<br />Tab</button>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-pagination"></div>
+                    <button class="nextTabButton">Next<br />Tab</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="tab2" class="tab-content">
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="evidence" style="text-align: center;">
+                            <img src="static/1.jpg" alt="">
+                        </div>
+                        <div class="project-explanation">
+                            <h2>프로젝트명: <strong>회사 내부 엔진 기능 고도화</strong></h2>
+                            <ul>
+                                <li><strong>소속회사:</strong> (주) 웨어비즈</li>
+                                <li><strong>주요 업무:</strong> 협력사와의 의견 조율 및 버그 해결</li>
+                                <li><strong>담당 역할:</strong> PM, Developer</li>
+                                <li><strong>기술 스택:</strong> Python, AI, OCR</li>
+                                <li><strong>업무 기간:</strong> 2023년 12월 ~ 2024년 2월</li>
+                                <li><strong>개발 인원:</strong> 2명</li>
+                            </ul>
+                            <h3>프로젝트 개요:</h3>
+                            <p>신규 및 기존에 납품했던 OCR 솔루션의 업무 소통과 일정 조율, 요구사항 수립등을 담당할 인력이 부족하여서 PM역할과 같은 업무지시가 내려져서 내부에서 납품할 솔루션의 내부 로직을 업그레이드 하여 개발 및 운영서버에 해당 엔진을 반영하는등의 업무를 하였습니다.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="controll-box">
+                    <button class="prevTabButton">Prev<br />Tab</button>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-pagination"></div>
+                    <button class="nextTabButton">Next<br />Tab</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="tab3" class="tab-content">
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="evidence" style="text-align: center;">
+                            <img src="static/2.png" alt="" style="width: 100%;">
+                        </div>
+                        <div class="project-explanation">
+                            <h2>프로젝트명: <strong>Adiga 대학입시 포털사이트</strong></h2>
+                            <ul>
+                                <li><strong>소속회사:</strong> (주) 웨어비즈</li>
+                                <li><strong>주요 업무:</strong> 검색엔진을 이용한 프론트엔드&백엔드 구현, OCR 파트 소통</li>
+                                <li><strong>담당 역할:</strong> Developer 및 PM</li>
+                                <li><strong>기술 스택:</strong> Java, JavaScript, Konan Search, OCR, AI, Python</li>
+                                <li><strong>업무 기간:</strong> 2023년 10월 ~ 2024년 2월</li>
+                                <li><strong>개발 인원:</strong> 2명</li>
+                            </ul>
+                            <h3>프로젝트 개요:</h3>
+                            <p>Konan Search(3rd Party) 검색엔진을 이용하여, 대학 입시 포털 사이트에 통합 검색 부분을 담당하게 되었습니다. 기존에 이용중이던 사이트에서 차세대 프로젝트로 ngram을 이용한 색인처리, 통합검색 이용시, 학교명, 학과명, 직업명, 학과별 전형정보, 공지사항 내용을 검색할 수 있는 통합검색부분이였습니다. 비동기 통신을 이용하여 전형별 펼치기 기능, 웹페이지의 로컬 스토리지를 이용하여 최근 검색어 구현하였으며, 인기검색어, 인기학과 기능도 처리하였습니다.</p>
+                            <p>추가적으로 OCR 솔루션도 해당 프로젝트에 납품하게 되어서 업무 소통과 일정 조율, 요구사항 수립등을 담당할 인력이 부족하여서 PM역할의 지시가 내려져서 해당 부분에도 담당하게 되었습니다.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="controll-box">
+                    <button class="prevTabButton">Prev<br />Tab</button>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-pagination"></div>
+                    <button class="nextTabButton">Next<br />Tab</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="tab4" class="tab-content">
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="evidence" style="text-align: center;">
+                            <img src="static/3.jpg" alt="" style="width: 100%;">
+                        </div>
+                        <div class="project-explanation">
+                            <h2>프로젝트명: <strong>KB금융지주 문서 내용 검색</strong></h2>
+                            <ul>
+                                <li><strong>소속회사:</strong> (주) 웨어비즈</li>
+                                <li><strong>주요 업무:</strong> 내부 사이트에서 문서 내용을 색인하여 검색 구현</li>
+                                <li><strong>담당 역할:</strong> 3rd party engineer, Developer</li>
+                                <li><strong>기술 스택:</strong> Elastic Search, Java, JavaScript, CSS</li>
+                                <li><strong>업무 기간:</strong> 2023년 8월 ~ 2023년 10월</li>
+                                <li><strong>개발 인원:</strong> 1명</li>
+                            </ul>
+                            <h3>프로젝트 개요:</h3>
+                            <p></p>
+                            <h3>프로젝트 소개 및 주요 기능:</h3>
+                            <p>현업과의 소통을 통하여 우선적으로 개발서버에 엔진 설치를 진행하였습니다.</p>
+                            <p>이후 요구사항에 따라 Select Box에서 내용을 선택 후 검색하였을 때에 Modal 창을 띄워주도록 처리하였으며, 목록 및 상세 보기 페이지까지 목업으로 구현 후 검색 필드를 정의하고 문서파일들을 색인할 수 있도록 DB Query를 작성하여 반영하였습니다.</p>
+                            <p>검색에서 필요한 기본적인 정확도, 하이라이트, 정렬 순서 변경 등의 로직이 추가적으로 구현되었으며, 파일 다운로드 기능 또한 구현하였습니다.</p>
+                            <p>스케줄링 작업을 통하여 매일 새벽마다 전체 내용을 삭제 후 재색인 하도록 구현되었습니다.</p>
+
+                            <h3>기술 스택 및 개발 상세 내용:</h3>
+                            <ul>
+                                <li><strong>Elastic Search:</strong> 회사의 제품이 Elastic Search로 구성되어 있었기 때문에 발생할 수 있는 문제들을 해결하기 위하거나, 기본적인 Elastic Query문을 날리기 위하여 필수 기술이였습니다.</li>
+                                <li><strong>Java:</strong> 사용자의 검색어를 받아 열람 권한이 있는 문서들만 추려 HttpConnection을 이용해 서버에 설치된 엔진과 통신하여 결과값을 Front에 전달하기 위하여 사용되었습니다.</li>
+                                <li><strong>JavaScript:</strong> 사용자의 검색어를 BackEnd에 전달 후 돌려받은 Return 값을 비동기적으로 사용자의 화면에 노출시키기 위하여 사용되었습니다.</li>
+                                <li><strong>CSS:</strong> 최대한 사용자의 요구사항에 맞도록 디자인을 하였으며, 소통으로 인하여 추가적인 디자인 수정사항이 있을 경우 직접 수정하기 위해 사용되었습니다.</li>
+                            </ul>
+                        </div>
+                    </div>
+                
+                <div class="swiper-slide">
+                    <pre class="evidence">
+                        <code class="language-javascript">
+/* 검색엔진 상세보기 팝업 AJAX */
+function search_detail(num) {
     
+    var formData = $("form[name=frm]").serialize();
+    formData += "&num="+num;
+
+    $.ajax({
+        type: 'POST',
+        async: true,
+        processData: false,
+        dataType: 'json',
+        data: formData,
+        url: '/search_detailCSDLAW01.do',
+        success: function(result) {
+            var search_word = result.search_word.Data;
+            var result_count = result.search.Data.length;
+            var addTitle = "";
+            var addContent = "";
+            var regex = new RegExp(search_word, "g");
+            $('#contents-detail-table').empty();
+            $('#contents-detail-contents').empty();
+            $('#contents-detail').empty();
+            
+            for (var i=0; i &lt result_count; i++) {
+                var p = "";
+                if(result.search.Data[i].p1 != null) {
+                    p += result.search.Data[i].p1;
+                        if (result.search.Data[i].p2 != null){
+                            p += "&lt/br&gt" + result.search.Data[i].p2;
+                        }
+                        if (result.search.Data[i].p3 != null){
+                            p += "&lt/br&gt" + result.search.Data[i].p3;
+                        }
+                } else {
+                    p = " - ";
+                }
+                
+                var d = "";
+                if(result.search.Data[i].d1 != null) {
+                    d += result.search.Data[i].d1;
+                    if (result.search.Data[i].d2 != null){
+                        d += "&lt/br&gt" + result.search.Data[i].d2;
+                    }
+                    if (result.search.Data[i].d3 != null){
+                        d += "&lt/br&gt" + result.search.Data[i].d3;
+                    }
+                } else {
+                    d = " - ";
+                }
+                
+                var cost = "";
+                if (result.search.Data[i].law_cost != null) {
+                    cost = result.search.Data[i].law_cost.toLocaleString() + "원";
+                } else {
+                    cost = " - ";
+                }
+                
+                addTitle += "&lttr&gt";
+                addTitle += "&lttd&gt&ltspan class='text-bold'&gt[사건번호]&lt/span&gt " + result.search.Data[i].law_code + " " + (result.search.Data[i].event_num || '-') +"&lt/td&gt";
+                addTitle += "&lttd&gt&ltspan class='text-bold'&gt[소가]&lt/span&gt " + cost +"&lt/td&gt";
+                addTitle += "&lt/tr&gt";
+                addTitle += "&lttr&gt";
+                addTitle += "&lttd&gt&ltspan class='text-bold'&gt[원고]&lt/span&gt " + p + "&lt/td&gt";
+                addTitle += "&lttd&gt&ltspan class='text-bold'&gt[피고]&lt/span&gt " + d + "&lt/td&gt";
+                addTitle += "&lt/tr&gt";
+                
+                addContent += "&ltp class='phrase'&gt※ 표, 각주, 이미지 등은 표시가 제한되어 원문과 상이할 수 있으므로 원문을 참고 부탁드립니다.&lt/p&gt&ltbr&gt";
+                if (search_word == "") {
+                    addContent += "&ltp style='font-size:1.2rem; float: left; padding-bottom: 5%;'&gt"+result.search.Data[i].file_contents+"&lt/p&gt";						
+                } else {
+                    var search_word = result.analyzer_word.Data.tokens.map(function(item) {
+                        return item.token;
+                    });
+                    var replace_contents = result.search.Data[i].file_contents;
+                    search_word.forEach(function(keyword) {
+                        var regex = new RegExp(keyword, "g");
+                        replace_contents = replace_contents.replace(regex, "&ltspan class='highlight_detail'&gt" + keyword + "&lt/span&gt");
+                    })
+                    addContent += "&ltp style='font-size:1.2rem; float: left; padding-bottom: 5%;'&gt" + replace_contents + "&lt/p&gt";
+                }
+            }
+            $('#contents-detail-table').append(addTitle);
+            $('#contents-detail-contents').append(addContent);
+        },
+        error: function(data, status, err) {
+            try {
+                    var errMsg = data.responseJSON.Result.Message;
+                    if ( typeof errMsg != undefined && errMsg != null ) {
+                        cc.alert(errMsg);
+                    } else {
+                        cc.alert(status + " : " + err);
+                    }
+                    if (typeof opt.callback === "function") {
+                        opt.callback(status);
+                    }
+                } catch (e) {
+                    console.error(e);
+                }
+        },
+        beforeSend: function() {
+            var prgImg = '&ltdiv class="ib-progress"&gt&ltspan&gt&lt/span&gt&lt/div&gt';
+            $(top.document.body).append(prgImg);
+            $('#contents-detail-table').empty();
+            $('#contents-detail-contents').empty();
+            $('#contents-detail').empty();
+        },
+        complete: function() {
+            $(top.document.body).children('.ib-progress').remove();
+        }
+    });
+                        
+    $("#holding_contents_detail").dialog("open");
+    openModals.push("#holding_contents_detail");
+}
+                        </code>
+                    </pre>
+                    <div class="project-explanation">
+                        <h3>기술 스택 및 개발 상세 내용:</h3>
+                        <ul>
+                            <li><strong>JavaScript:</strong> 구현된 JavaScript중 상세보기 부분 코드입니다. ajax를 이용하여 백엔드와 비동기 통신하였습니다.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <pre class="evidence">
+                        <code class="language-java">
+/*
+* @author 웨어비즈
+* @brief 법률자문 관리 &gt 본문내용 &gt 조회 시 아래의 코드를 호출한다.
+* 아래의 코드는 해당 정보의 PK 값을 가져와 조합해 검색엔진에 보낼 URL을 작성한다.
+* 작성된 URL을 Http통신을 통해 JSON 형태로 반환받아 값을 돌려준다.
+* */
+@RequestMapping(value = "search_detailCSDLAW01.do")
+public ModelAndView selectCSDLAW01_search_detail(@RequestParam Map&ltString, String&gt map) throws Exception {
+    
+    IBSheetUtil ibUtil = new IBSheetUtil();
+    String num = map.get("num");
+    
+    String search_word = map.get("frm_searchTxt").toString();
+    search_word = URLEncoder.encode(search_word, "UTF-8");
+    
+    String argos_url = propertyService.getString("argos.url"); // http://IP:8021/as_api/search?
+    StringBuilder argos_search = new StringBuilder();
+    
+    argos_search.append(argos_url);
+    if(search_word != "") {
+        argos_search.append("select=*&from=kb_suit&where=((rnum="+num+")%20and%20(file_contents=%27" + search_word + "%27))");
+        argos_search.append("&highlightStartTag=%3cem+class%3dhighlight_detail%3e&highlightEndTag=%3c%2fem%3e&highlightFields=file_contents");
+    } else {
+        argos_search.append("select=*&from=kb_suit&where=(rnum="+num+")");			
+    }
+    JSONObject query_result = argosGet(argos_search.toString());
+    
+    // 형태소 분석 후 본문 내용에 하이라이트 출력
+    String analyzer_url = propertyService.getString("analyzer.url");
+    StringBuilder analyzer_search = new StringBuilder();
+    
+    analyzer_search.append(propertyService.getString("analyzer.url"));
+    analyzer_search.append("index=kb_law&sentence=" + search_word);
+    JSONObject analyzer_result = argosGet(analyzer_search.toString());
+    
+    query_result.put("analyzer_word", analyzer_result);
+    search_word = URLDecoder.decode(search_word, "UTF-8");
+    query_result.put("search_word", search_word);
+    ibUtil.setCodeMessage("SHEETDATA1","정상적으로 처리되었습니다."); 
+    ibUtil.setData(query_result);  //&lt--시트 데이터
+    ModelAndView model = new ModelAndView("jsonView",ibUtil.getSearchJSON());
+    
+    return model;
+}
+
+/*
+* @author 웨어비즈
+* @brief 검색엔진 결과 페이지에서 사용될 파일 다운로드 구현
+* */
+@RequestMapping(value = "/adownload.do")
+public void downloadFile(@RequestParam("file_no") String file_no, @RequestParam("tb") String relation_Table, HttpServletResponse response) throws Exception {
+
+    Map&ltString, String&gt map = new HashMap&ltString, String&gt();
+    
+    map.put("file_no", file_no);
+    map.put("relation_Table", relation_Table);
+    
+    List data = lawService.selectFileDir(map);
+    
+    if (!data.isEmpty()) {
+        EgovMap egovMap = (EgovMap) data.get(0);
+        String file_Path = propertyService.getString("file.download.rootdir") + egovMap.get("url").toString();
+        //String file_Path = "D:\\hello\\20081031_법무법인검토_김장";
+        
+        File file = new File(file_Path);
+        
+        if (file.exists()) {
+            response.setContentType("application/octet-stream");
+            response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(egovMap.get("name").toString(), "UTF-8") + "\"");
+            
+            OutputStream outputStream = response.getOutputStream();
+            FileInputStream inputStream = new FileInputStream(file);
+            
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+            
+            inputStream.close();
+            outputStream.close();
+        } else {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "파일이 존재하지 않습니다.");
+        }
+    } 
+}
+
+/*
+* @author 웨어비즈
+* @brief 검색엔진을 호출해 JSON 결과를 return 받기 위한 HTTP통신 로직 구현
+* */
+private JSONObject argosGet(String query) throws Exception {
+    
+    HttpURLConnection conn = null;
+    StringBuilder sb = null;
+    
+    JSONObject responseJson = null;
+    
+    try {
+        URL url = new URL(query);
+        
+        LOGGER.debug(query.toString());
+        conn = (HttpURLConnection) url.openConnection();
+        conn.setConnectTimeout(60000);
+        conn.setReadTimeout(60000); 
+        conn.setRequestMethod("GET");
+        
+        int responseCode = conn.getResponseCode();
+        if (responseCode == 400 || responseCode == 401 || responseCode == 500) {
+            LOGGER.error(responseCode + "Error!");
+        } else {
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+            sb = new StringBuilder();
+            String line = "";
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+            }
+            JSONParser parser = new JSONParser();
+            responseJson = (JSONObject) parser.parse(sb.toString());
+            return responseJson;
+
+        }
+    } catch (MalformedURLException e) {
+        e.printStackTrace();
+    } catch (IOException e) {
+        e.printStackTrace();
+    } catch (ParseException e) {
+        LOGGER.error("not JSON Format response");
+        e.printStackTrace();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return responseJson;
+}
+                        </code>
+                    </pre>
+                    <div class="project-explanation">
+                        <h3>기술 스택 및 개발 상세 내용:</h3>
+                        <ul>
+                            <li><strong>Java:</strong> 기존에 IBSheetUtil 제품으로 프로젝트 전체가 구현이 되어있어 해당 방식을 그대로 이용하여 Java 단을 구현하였습니다.<br/> Front에서 보낸 데이터를 받아 검색용 쿼리문으로 변경 후 Http통신을 통하여 데이터를 반환 받고 해당 데이터를 뿌려주는 소스와 다운로드를 구현한 코드입니다. </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <pre class="evidence">
+                        <code class="language-shell">
+#!/bin/bash
+
+# Directory Path
+INDEX_DIR="/설치경로/ArgosSearch/index"
+DUMP_DIR="/설치경로/ArgosSearch/dump"
+INDEXING_DIR="/설치경로/ArgosSearch/indexing"
+SCHEDULER_DIR="/설치경로/ArgosSearch/scheduler/script"
+LOG_FILE="$SCHEDULER_DIR/scheduler_result.log"
+TEMP_LOG_FILE="$SCHEDULER_DIR/log_temp.log"
+
+check_file_size() {
+    local file_path="$1"
+    local wait_time=20
+    local prev_size=0
+
+    while true; do
+        file_size=$(stat -c %s "$file_path")
+        if [ "$file_size" -eq "$prev_size" ]; then
+            break
+        fi
+        sleep "$wait_time"
+        prev_size="$file_size"
+    done
+}
+
+cd "$DUMP_DIR/data/bulk"
+today=$(date +'%Y-%m-%d')
+mv kb_law.txt "kb_law.txt_$today"
+
+find "$DUMP_DIR/data/bulk" -type f -name "kb_law*" -mtime +5 -exec rm {} \;
+
+# DB BULK Process
+cd "$DUMP_DIR"
+./dump.sh ./conf/bulk/kb_law.conf &> "$TEMP_LOG_FILE" &
+
+check_file_size "$DUMP_DIR/data/bulk/kb_law.txt"
+
+cd "$DUMP_DIR/data/bulk"
+
+# 10MB = 10485760 | 150KB = 153600
+if [ -f "kb_law.txt" ] && [ $(stat -c %s "kb_law.txt") -ge 153600 ]; then
+    # Elastic Data Delete for Kb_law
+    curl -X POST "http://localhost:9200/kb_law/_delete_by_query" -H "Content-Type: application/json" -d '{"query": {"match_all": {}},"_source": {"includes": []}}'
+
+    # Insert Elastic BULK Data
+    cd "$INDEXING_DIR"
+    ./indexing.sh ./bulk/kb_law.conf
+    if [ ! -f $LOG_FILE ]; then
+            echo "[`date '+%Y-%m-%d %H:%M:%S'`] kb_law Indexing SUCCESS;" > $LOG_FILE
+    else
+            echo "[`date '+%Y-%m-%d %H:%M:%S'`] kb_law Indexing SUCCESS;" >> $LOG_FILE
+    fi
+fi
+
+# Result Record
+if [ ! -f $LOG_FILE ]; then
+    echo "[`date '+%Y-%m-%d %H:%M:%S'`] kb_law schedul SUCCESS;" > $LOG_FILE
+else
+    echo "[`date '+%Y-%m-%d %H:%M:%S'`] kb_law schedul SUCCESS;" >> $LOG_FILE
+fi
+
+cd "$SCHEDULER_DIR"
+./kb_bulk_suit_all.sh
+                        </code>
+                    </pre>
+                    <div class="project-explanation">
+                        <h3>기술 스택 및 개발 상세 내용:</h3>
+                        <ul>
+                            <li><strong>Shell:</strong> 새벽 마다 전체 색인을 돌리기 위한 엔진을 동작시켜 bulk를 생성하고 해당 bulk를 검색엔진에 삽입하도록 동작하는 Shell 파일입니다.<br />스케줄러가 지정한 시간마다 동작하여 이 파일을 실행합니다.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+                <div class="controll-box">
+                    <button class="prevTabButton">Prev<br />Tab</button>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-pagination"></div>
+                    <button class="nextTabButton">Next<br />Tab</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="tab10" class="tab-content">
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">Slide X</div>
+                    <div class="swiper-slide">Slide Y</div>
+                    <div class="swiper-slide">Slide Z</div>
+                </div>
+                <div class="controll-box">
+                    <button class="prevTabButton">Prev<br />Tab</button>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-pagination"></div>
+                    <button class="nextTabButton">Next<br />Tab</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="tab11" class="tab-content">
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+
+                        <pre class="evidence"><code class="language-php">
+$this->load->library("form_validation");
+$this->form_validation->set_rules("userid", "아이디", "trim|required|xss_clean");
+$this->form_validation->set_rules("password", "비밀번호", "trim|required|xss_clean");
+$this->form_validation->set_rules("return_url", "", "trim|xss_clean");
+
+$this->load->model("Admin_Member_model");
+
+$this->config->load("cfg_adm_superman");
+$superadmin = $this->config->item("admin");
+
+if ($this->form_validation->run() == true) {
+	if(ib_isset($superadmin) && $superadmin[$this->input->post('userid', true)] == $this->input->post("password", true)) {
+		$this->session->set_userdata(
+			array(
+				"admin_member" => array(
+				"userid" => "관리자아이디",
+				"name" => "관리자",
+				"group" => "",
+				"level" => 99,
+				"super" => true
+			    )
+		    )
+	    );
+    } else {
+	    $data = array(
+            "userid" => $this->input->post("userid", true),
+            "password" => $this->input->post("password", true),
+            "encrypt" => $this->input->post("encrypt", true),
+	    );
+
+$get_data = $this->Admin_Member_model->login_chk($data);
+$msg = "";
+
+if(!$get_data) {
+    echo "wrong id";
+    return false;
+} else if($get_data["yn_password"] != "y") {
+    echo "다른 패스워드";
+    return false;
+} else if($get_data["yn_status"] != "y"){
+    echo "비활성화 계정";
+    return false;
+} else if(!in_array($get_data["level"], array_keys($this->_adm_auth))) {
+    echo "no authority";
+    return false;
+}
+
+    echo "성공"; // 응답값
+    return true;
+}
+
+} else {
+    $err = $this->form_validation->error_array();
+    if(count($err) > 0) {
+        $keys = array_keys($err);
+        $error = $err[$keys[0]];
+        echo $error;
+    }
+}</code></pre>
+                        <div class="project-explanation">
+                            <h2>프로젝트명: <strong>Nice Tax Free 관리자 홈페이지</strong></h2>
+                            <ul>
+                                <li><strong>소속회사:</strong> (주) 웨어비즈</li>
+                                <li><strong>주요 업무:</strong> 백엔드 및 프론트엔드 담당(PHP)</li>
+                                <li><strong>담당 역할:</strong> 관리자 화면에서 비밀번호 오류 시 계정 잠금 처리 로직 구현</li>
+                                <li><strong>기술 스택:</strong> PHP(CodeIgniter), MySQL</li>
+                                <li><strong>업무 기간:</strong> 2022년 12월 (약 1주)</li>
+                                <li><strong>개발 인원:</strong> 3명</li>
+                            </ul>
+                            <h3>프로젝트 개요:</h3>
+                            <p>Nice Tax Free 홈페이지의 관리자 페이지에서 비밀번호 오류 시 계정을 잠그는 기능을 구현하여 보안성을 강화하는 작업을 수행했습니다.</p>
+
+                            <h3>프로젝트 소개 및 주요 기능:</h3>
+                            <p>이 프로젝트는 CodeIgniter 프레임워크로 구성된 관리자 페이지에서 보안 강화를 목적으로 비밀번호 오류 시 계정을 잠금 처리하는 로직을 추가하는 것이 주요
+                                목표였습니다. 비밀번호가 일정 횟수 이상 틀릴 경우, 계정이 자동으로 잠기도록 하여 관리자 계정의 보안을 강화했습니다.</p>
+
+                            <h3>기술 스택 및 개발 상세 내용:</h3>
+                            <ul>
+                                <li><strong>PHP(CodeIgniter):</strong> 백엔드에서 로그인 요청 처리 및 계정 잠금 로직 구현</li>
+                                <li><strong>MySQL:</strong> DB에서 비밀번호 오류 횟수 및 계정 잠금 여부 관리</li>
+                                <li><strong>JavaScript:</strong> 프론트엔드에서 로그인 요청 후 백엔드와의 비밀번호 검증을 처리</li>
+                                <li>로그인 시 비밀번호 오류 발생 시, 데이터베이스에서 해당 계정의 비밀번호 오류 횟수를 조회</li>
+                                <li>오류 횟수가 5회를 초과할 경우 계정을 자동으로 잠그는 기능 구현</li>
+                                <li>오류 발생 시마다 실패 횟수를 카운팅하여 데이터베이스에 저장</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="controll-box">
+                    <button class="prevTabButton">Prev<br />Tab</button>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-pagination"></div>
+                    <button class="nextTabButton">Next<br />Tab</button>
+                </div>
+            </div>
+        </div>
+
+        
+
+        
+
+    </div>
+
+    <!-- JS 코드 -->
+    <script src="javascript/company.js"></script>
 </body>
+
 </html>
