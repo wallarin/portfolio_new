@@ -17,6 +17,10 @@ h1 {
     color: #444;
 }
 
+.contents-4 .project-div a { color:#333; text-decoration: none;}
+.contents-4 .project-div a:link { color:#333;}
+.contents-4 .project-div a:visited { color:#333;}
+
 
 
 /* -------------------------------------------------------- */
