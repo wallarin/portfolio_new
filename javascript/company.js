@@ -142,6 +142,17 @@ function activateTab(tabIndex) {
     setTimeout(() => {
         updateTabButtons(tabIndex);
     }, 100);
+
+    // 활성화된 탭으로 스크롤 이동
+    const tab = tabs[tabIndex];
+    const tabContainer = document.querySelector('.tabs');
+    const tabRect = tab.getBoundingClientRect();
+    const containerRect = tabContainer.getBoundingClientRect();
+
+    // 탭이 화면 밖에 있을 경우 가로 스크롤 조정
+    if (tabRect.left < containerRect.left || tabRect.right > containerRect.right) {
+        tabContainer.scrollLeft += (tabRect.left - containerRect.left) - (containerRect.width / 2) + (tabRect.width / 2);
+    }
 }
 
 // 탭 클릭 이벤트
