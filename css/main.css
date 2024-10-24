@@ -183,7 +183,7 @@ section {
     top: 5%; /* 링크 상단에 툴팁 표시 */
     left: 130%;
     transform: translateX(-50%);
-    z-index: 1;
+    z-index: 3;
     
     opacity: 0;
     transition: opacity 0.3s;
