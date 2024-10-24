@@ -165,16 +165,15 @@ code {
     display: none;
     position: absolute;
     z-index: 30;
-    background: linear-gradient(135deg, #007aff, #00bfff);
+    background: linear-gradient(135deg, #ffffff, #e6e6e6); /* 어두운 회색 그라데이션 */
     border: none;
     border-radius: 50px;
     cursor: pointer;
     padding: 10px 30px;
     font-size: 14px;
-    color: white;
+    color: #333333;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
-
     right: var(--swiper-navigation-sides-offset, 0px);
     top: 15px;
 }
@@ -182,22 +181,20 @@ code {
 .prevTabButton {
     position: absolute;
     z-index: 30;
-    background: linear-gradient(135deg, #007aff, #00bfff);
+    background: linear-gradient(135deg, #ffffff, #e6e6e6); /* 어두운 회색 그라데이션 */
     border: none;
     border-radius: 50px;
     cursor: pointer;
     padding: 10px 30px;
     font-size: 14px;
-    color: white;
+    color: #333333;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
-
     top: 15px;
-
 }
 
 .nextTabButton:hover, .prevTabButton:hover {
-    background: linear-gradient(135deg, #005bb5, #0099ff);
+    background: linear-gradient(135deg, #f2f2f2, #cccccc); /* hover 시 더 어두운 회색 그라데이션 */
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
