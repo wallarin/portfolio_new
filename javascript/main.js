@@ -35,10 +35,10 @@ document.getElementById('email').addEventListener('click', function() {
     navigator.clipboard.writeText(emailText).then(function() {
         // 복사 후 2초 후 사라지는 알림 메시지 설정
         const notification = document.getElementById('copy-notification');
-        notification.style.display = 'block';
+        notification.style.visibility = 'visible';
 
         setTimeout(function() {
-            notification.style.display = 'none';
+            notification.style.visibility = 'hidden';
         }, 2000);
     }).catch(function(err) {
         console.log('복사 실패:', err);
